@@ -1,6 +1,7 @@
 ﻿using Dapper;
 using EmployeesAPI.Data.Context;
 using EmployeesAPI.Domain.Abstractions;
+using EmployeesAPI.Domain.Resources;
 using EmployeesAPI.Models.Database;
 
 namespace EmployeesAPI.Domain.Repositories
@@ -15,30 +16,29 @@ namespace EmployeesAPI.Domain.Repositories
         }
         public async Task<int?> Add(Passport item)
         {
-            var queryString = "INSERT INTO public.\"Passports\" (Type, Number) VALUES (@Type, @Number) RETURNING id;";
+            var queryString = SqlQueries.PassportInsert;
 
             return await _context.QueryFirstAsync<int?>(queryString, new { Type = item.Type, Number = item.Number });
         }
 
         public async Task Delete(int id)
         {
-            var queryString = "DELETE FROM public.\"Passports\" WHERE Id = @Id;";
+            var queryString = SqlQueries.PassportDelete;
 
             await _context.ExecuteAsync(queryString, new { Id = id });
         }
 
         public async Task<Passport?> ReadByNumAsync(string number)
         {
-            var queryString = "SELECT * FROM public.\"Passports\" WHERE Number = @Number";
+            var queryString = SqlQueries.PassportReadByNum;
+
             return await _context.QueryFirstOrDefaultAsync<Passport>(queryString, new { Number = number });
         }
 
         public async Task Update(Passport item)
         {
-            var queryString = "UPDATE public.\"Passports\" SET " +
-                    "Number = CASE WHEN @Number IS NULL THEN Number ELSE @Number END, " +
-                    "Type = CASE WHEN @Type IS NULL THEN Type ELSE @Type END " +
-                    "WHERE Id = @Id;";
+            var queryString = SqlQueries.PassportUpdate;
+
             await _context.ExecuteAsync(queryString, new { Id = item.Id, Type = item.Type, Number = item.Number });
         }
     }

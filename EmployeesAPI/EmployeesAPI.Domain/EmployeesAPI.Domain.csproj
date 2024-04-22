@@ -17,4 +17,19 @@
     <ProjectReference Include="..\EmployeesAPI.Models\EmployeesAPI.Models.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Compile Update="Resources\SqlQueries.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>SqlQueries.resx</DependentUpon>
+    </Compile>
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Update="Resources\SqlQueries.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>SqlQueries.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+  </ItemGroup>
+
 </Project>

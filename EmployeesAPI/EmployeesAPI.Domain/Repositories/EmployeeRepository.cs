@@ -3,6 +3,7 @@ using Dapper;
 using EmployeesAPI.Models.Database;
 using EmployeesAPI.Data.Context;
 using EmployeesAPI.Domain.Abstractions;
+using EmployeesAPI.Domain.Resources;
 
 namespace EmployeesAPI.Domain.Repositories
 {
@@ -17,8 +18,7 @@ namespace EmployeesAPI.Domain.Repositories
 
         public async Task<int?> Add(Employee item)
         {
-            var queryString = "INSERT INTO public.\"Employees\" (Name, Surname, Phone, CompanyId, PassportId, DepartmentId) " +
-                "VALUES (@Name, @Surname, @Phone, @CompanyId, @PassportId, @DepartmentId) RETURNING Id";
+            var queryString = SqlQueries.EmployeeInsert;
 
             return await _context.QueryFirstAsync<int?>(
                 queryString,
@@ -35,30 +35,21 @@ namespace EmployeesAPI.Domain.Repositories
 
         public async Task Delete(int id)
         {
-            var queryString = "DELETE FROM public.\"Employees\" WHERE Id = @Id;";
+            var queryString = SqlQueries.EmployeeDelete;
 
             await _context.ExecuteAsync(queryString, new { Id = id });
         }
 
         public async Task<IEnumerable<EmployeeShortInfo>> GetAllByCompanyId(int id)
         {
-            var queryString = "SELECT empl.Id, empl.Name, empl.Surname, " +
-                "empl.Phone, empl.CompanyId, requiredPass.Type, " +
-                "requiredPass.Number, requiredDep.DepartmentName, requiredDep.DepartmentPhone FROM public.\"Employees\" empl " +
-                "JOIN public.\"Departments\" requiredDep ON requiredDep.Id = empl.DepartmentId " +
-                "JOIN public.\"Passports\" requiredPass ON requiredPass.Id = empl.PassportId " +
-                "WHERE empl.CompanyId = @Id;";
+            var queryString = SqlQueries.EmployeeGetAllByCompanyId;
 
             return await _context.QueryAsync<EmployeeShortInfo>(queryString, new { Id = id });
         }
 
         public async Task Update(Employee item)
         {
-            var queryUpdEmployee = "UPDATE public.\"Employees\" SET " +
-                "Name = CASE WHEN @Name IS NULL THEN Name ELSE @Name END," +
-                "Surname = CASE WHEN @Surname IS NULL THEN Surname ELSE @Surname END, " +
-                "Phone = CASE WHEN @Phone IS NULL THEN Phone ELSE @Phone END " +
-                "WHERE Id = @Id;";
+            var queryUpdEmployee = SqlQueries.EmployeeUpdate;
 
             await _context.ExecuteAsync(queryUpdEmployee, new
             {
@@ -71,33 +62,26 @@ namespace EmployeesAPI.Domain.Repositories
 
         public async Task<Employee?> ReadAsync(int employeeId)
         {
-            var queryString = "SELECT * FROM public.\"Employees\" " +
-                        "WHERE Id = @Id;";
+            var queryString = SqlQueries.EmployeeRead;
+
             return await _context.QueryFirstOrDefaultAsync<Employee>(queryString, new { Id = employeeId });
         }
 
         public async Task<int?> GetDepartmentId(int employeeId)
         {
-            var queryString = "SELECT DepartmentId FROM public.\"Employees\" " +
-                        "WHERE Id = @Id;";
+            var queryString = SqlQueries.EmployeeGetDepartmentId;
             return await _context.QueryFirstOrDefaultAsync<int?>(queryString, new { Id = employeeId }); ;
         }
 
         public async Task<int?> GetPassportId(int employeeId)
         {
-            var queryString = "SELECT PassportId FROM public.\"Employees\" " +
-                        "WHERE Id = @Id;";
+            var queryString = SqlQueries.EmployeeGetPassportId;
             return await _context.QueryFirstOrDefaultAsync<int?>(queryString, new { Id = employeeId }); ;
         }
 
         public async Task<IEnumerable<EmployeeShortInfo>> GetAllByDepartmentName(string depName)
         {
-            var queryString = "SELECT empl.Id, empl.Name, empl.Surname, " +
-                "empl.Phone, empl.CompanyId, requiredPass.Type, " +
-                "requiredPass.Number, requiredDep.DepartmentName, requiredDep.DepartmentPhone FROM public.\"Employees\" empl " +
-                "JOIN public.\"Departments\" requiredDep ON requiredDep.Id = empl.DepartmentId " +
-                "JOIN public.\"Passports\" requiredPass ON requiredPass.Id = empl.PassportId " +
-                "WHERE requiredDep.DepartmentName = @depname;";
+            var queryString = SqlQueries.EmployeeGetAllByDepartmentName;
             return await _context.QueryAsync<EmployeeShortInfo>(queryString, new { depname = depName });
         }
 
