@@ -1,0 +1,23 @@
+version: '3.4'
+
+services:
+  employeesapi:
+    image: ${DOCKER_REGISTRY-}employeesapi
+    build:
+      context: .
+      dockerfile: EmployeesAPI/Dockerfile
+    ports:
+    - "8080:8080"
+    - "8081:8081"
+
+  employeesapi.database:
+    image: postgres:latest
+    container_name: employeesapi.database
+    environment:
+      - POSTGRES_DB=employeesDB
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+    volumes:
+      - ./.containers/employees-db:/var/lib/postgresql/data
+    ports:
+      - 19111:5432
