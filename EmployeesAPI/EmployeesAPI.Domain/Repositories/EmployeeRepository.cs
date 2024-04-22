@@ -40,7 +40,7 @@ namespace EmployeesAPI.Domain.Repositories
             await _context.ExecuteAsync(queryString, new { Id = id });
         }
 
-        public async Task<IEnumerable<EmployeeShortInfo>> GetAllByCompanyId(int id)
+        public async Task<IEnumerable<EmployeeShortInfo>> GetAllByCompanyIdAsync(int id)
         {
             var queryString = SqlQueries.EmployeeGetAllByCompanyId;
 
@@ -67,19 +67,19 @@ namespace EmployeesAPI.Domain.Repositories
             return await _context.QueryFirstOrDefaultAsync<Employee>(queryString, new { Id = employeeId });
         }
 
-        public async Task<int?> GetDepartmentId(int employeeId)
+        public async Task<int?> GetDepartmentIdAsync(int employeeId)
         {
             var queryString = SqlQueries.EmployeeGetDepartmentId;
             return await _context.QueryFirstOrDefaultAsync<int?>(queryString, new { Id = employeeId }); ;
         }
 
-        public async Task<int?> GetPassportId(int employeeId)
+        public async Task<int?> GetPassportIdAsync(int employeeId)
         {
             var queryString = SqlQueries.EmployeeGetPassportId;
             return await _context.QueryFirstOrDefaultAsync<int?>(queryString, new { Id = employeeId }); ;
         }
 
-        public async Task<IEnumerable<EmployeeShortInfo>> GetAllByDepartmentName(string depName)
+        public async Task<IEnumerable<EmployeeShortInfo>> GetAllByDepNameAsync(string depName)
         {
             var queryString = SqlQueries.EmployeeGetAllByDepartmentName;
             return await _context.QueryAsync<EmployeeShortInfo>(queryString, new { depname = depName });

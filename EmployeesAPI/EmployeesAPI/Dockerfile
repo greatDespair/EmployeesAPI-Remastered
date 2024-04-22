@@ -7,12 +7,8 @@ EXPOSE 8081
 
 FROM mcr.microsoft.com/dotnet/sdk:6.0 AS build
 WORKDIR /src
-COPY ["EmployeesAPI/EmployeesAPI.csproj", "EmployeesAPI/"]
-COPY ["EmployeesAPI.Domain/EmployeesAPI.Domain.csproj", "EmployeesAPI.Domain/"]
-COPY ["EmployeesAPI.Data/EmployeesAPI.Data.csproj", "EmployeesAPI.Data/"]
-COPY ["EmployeesAPI.Models/EmployeesAPI.Models.csproj", "EmployeesAPI.Models/"]
-RUN dotnet restore "EmployeesAPI/EmployeesAPI.csproj"
 COPY . .
+RUN dotnet restore "EmployeesAPI/EmployeesAPI.csproj"
 WORKDIR "/src/EmployeesAPI"
 RUN dotnet build "EmployeesAPI.csproj" -c Release -o /app/build
 

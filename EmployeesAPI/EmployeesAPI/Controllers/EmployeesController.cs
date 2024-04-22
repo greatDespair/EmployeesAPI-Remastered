@@ -42,7 +42,7 @@ namespace EmployeesAPI.Controllers
         [HttpGet("GetEmployeesByDepartmentName")]
         public async Task<IActionResult> GetEmployeesByDepartmentName(string name)
         {
-            var result = await _employeeService.GetEmployeesByDepartmentName(name);
+            var result = await _employeeService.GetEmployeesByDepNameAsync(name);
             if (result == null)
                 return NotFound();
             return Ok(result);
@@ -58,7 +58,7 @@ namespace EmployeesAPI.Controllers
         [HttpGet("GetEmployeesByCompanyId")]
         public async Task<IActionResult> GetEmployeesByCompanyId(int id)
         {
-            var result = await _employeeService.GetEmployeesByCompanyId(id);
+            var result = await _employeeService.GetEmployeesByCompanyIdAsync(id);
             if (result == null)
                 return NotFound();
             return Ok(result);
@@ -80,7 +80,7 @@ namespace EmployeesAPI.Controllers
                 return BadRequest(validatingReport);
             }
 
-            var result = await _employeeService.AddEmployee(employee);
+            var result = await _employeeService.AddEmployeeAsync(employee);
             return Ok(result);
         }
 
@@ -93,7 +93,7 @@ namespace EmployeesAPI.Controllers
         [HttpDelete("DeleteEmployee")]
         public async Task<IActionResult> DeleteEmployee(int id)
         {
-            await _employeeService.DeleteEmployee(id);
+            await _employeeService.DeleteEmployeeAsync(id);
             return NoContent();
         }
 
@@ -101,14 +101,14 @@ namespace EmployeesAPI.Controllers
         /// Обновляет информацию о сотруднике
         /// </summary>
         /// <param name="employee">Обновляемый сотрудник</param>
-        /// <response code="204">Сотрудник успешно обновлен</response>
+        /// <response code="200">Сотрудник успешно обновлен</response>
         /// <response code="400">Некорректные данные для обновления</response>
         /// <response code="404">Данные о сотруднике не найдены</response>
         [HttpPut("UpdateEmployee")]
         public async Task<IActionResult> UpdateEmployee(EmployeeDto employee)
         {
-            await _employeeService.UpdateEmployee(employee);
-            return NoContent();
+            await _employeeService.UpdateEmployeeAsync(employee);
+            return Ok();
         }
     }
 }

@@ -25,7 +25,7 @@ namespace EmployeesAPI.Domain.Services
             _mapper = mapper;
         }
 
-        public async Task<int?> AddEmployee(EmployeeDto employeeDto)
+        public async Task<int?> AddEmployeeAsync(EmployeeDto employeeDto)
         {
             var employee = _mapper.Map<Employee>(employeeDto);
             var passport = employee.Passport;
@@ -54,9 +54,9 @@ namespace EmployeesAPI.Domain.Services
             return 0;
         }
 
-        public async Task DeleteEmployee(int id)
+        public async Task DeleteEmployeeAsync(int id)
         {
-            var passportId = await _employeeRepository.GetPassportId(id);
+            var passportId = await _employeeRepository.GetPassportIdAsync(id);
             if (passportId != null)
             {
                 await _employeeRepository.Delete(id);
@@ -68,10 +68,10 @@ namespace EmployeesAPI.Domain.Services
             }
         }
 
-        public async Task<List<EmployeeDto>> GetEmployeesByCompanyId(int id)
+        public async Task<List<EmployeeDto>> GetEmployeesByCompanyIdAsync(int id)
         {
             List<EmployeeDto> employees = new List<EmployeeDto>();
-            var result = await _employeeRepository.GetAllByCompanyId(id);
+            var result = await _employeeRepository.GetAllByCompanyIdAsync(id);
             foreach (var employee in result)
             {
                 employees.Add(_mapper.Map<EmployeeDto>(employee));
@@ -79,10 +79,10 @@ namespace EmployeesAPI.Domain.Services
             return employees;
         }
 
-        public async Task<List<EmployeeDto>> GetEmployeesByDepartmentName(string name)
+        public async Task<List<EmployeeDto>> GetEmployeesByDepNameAsync(string name)
         {
             List<EmployeeDto> employees = new List<EmployeeDto>();
-            var result = await _employeeRepository.GetAllByDepartmentName(name);
+            var result = await _employeeRepository.GetAllByDepNameAsync(name);
             foreach (var employee in result)
             {
                 employees.Add(_mapper.Map<EmployeeDto>(employee));
@@ -90,12 +90,12 @@ namespace EmployeesAPI.Domain.Services
             return employees;
         }
 
-        public async Task UpdateEmployee(EmployeeDto employeeDto)
+        public async Task UpdateEmployeeAsync(EmployeeDto employeeDto)
         {
             var employee = _mapper.Map<Employee>(employeeDto);
             var checkEmployee = await _employeeRepository.ReadAsync(employee.Id);
 
-            if(checkEmployee == null) 
+            if (checkEmployee == null)
             {
                 throw new KeyNotFoundException("Employee not found");
             }
@@ -104,14 +104,14 @@ namespace EmployeesAPI.Domain.Services
 
             if (employee.Passport != null)
             {
-                var passportId = await _employeeRepository.GetPassportId(employeeDto.Id);
+                var passportId = await _employeeRepository.GetPassportIdAsync(employeeDto.Id);
                 employee.Passport.Id = (int)passportId;
                 await _passportRepository.Update(employee.Passport);
             }
 
             if (employee.Department != null)
             {
-                var departmentId = await _employeeRepository.GetDepartmentId(employeeDto.Id);
+                var departmentId = await _employeeRepository.GetDepartmentIdAsync(employeeDto.Id);
                 employee.Department.Id = (int)departmentId;
                 await _departmentRepository.Update(employee.Department);
             }
