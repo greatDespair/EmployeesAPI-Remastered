@@ -1,6 +1,4 @@
-﻿using System.Data;
-using Dapper;
-using EmployeesAPI.Models.Database;
+﻿using EmployeesAPI.Models.Database;
 using EmployeesAPI.Data.Context;
 using EmployeesAPI.Domain.Abstractions;
 using EmployeesAPI.Domain.Resources;

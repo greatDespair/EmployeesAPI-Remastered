@@ -5,7 +5,7 @@ namespace EmployeesAPI.Validation
     public static class ValidateEmployee
     {
         private const string _errorMessageEmpty = " cannot be empty";
-        public static IEnumerable<string> TryValidateToInsert(this EmployeeDto item)
+        public static IEnumerable<string> TryValidateToInsert(this AddedEmployeeDto item)
         {
             if (string.IsNullOrEmpty(item.Name))
             {

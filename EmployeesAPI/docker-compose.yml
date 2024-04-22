@@ -8,7 +8,6 @@ services:
       dockerfile: EmployeesAPI/Dockerfile
     ports:
     - "8080:8080"
-    - "8081:8081"
 
   employeesapi.database:
     image: postgres:latest
@@ -20,4 +19,4 @@ services:
     volumes:
       - ./.containers/employees-db:/var/lib/postgresql/data
     ports:
-      - 19111:5432
+      - 5432:5432

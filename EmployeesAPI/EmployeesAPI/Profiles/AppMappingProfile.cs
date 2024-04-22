@@ -33,6 +33,12 @@ namespace EmployeesAPI.Profiles
                     src => new PassportDto { Type = src.Type, Number = src.Number }))
                 .ForMember(dest => dest.Department, opt => opt.MapFrom(
                     src => new DepartmentDto { Name = src.DepartmentName, Phone = src.DepartmentPhone }));
+
+            CreateMap<AddedEmployeeDto, Employee>()
+                .ForMember(dest => dest.Passport, opt => opt.MapFrom(
+                    src => new Passport { Type = src.Passport.Type, Number = src.Passport.Number }))
+                .ForMember(dest => dest.Department, opt => opt.MapFrom(
+                    src => new Department { DepartmentPhone = src.Department.Phone, DepartmentName = src.Department.Name }));
         }
     }
 }

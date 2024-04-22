@@ -72,7 +72,7 @@ namespace EmployeesAPI.Controllers
         /// <response code="400">Некорретные данные для добавления сотрудника</response>
         [SwaggerResponse((int)HttpStatusCode.OK, "Id", typeof(int))]
         [HttpPost("AddEmployee")]
-        public async Task<IActionResult> AddEmployee(EmployeeDto employee)
+        public async Task<IActionResult> AddEmployee(AddedEmployeeDto employee)
         {
             var validatingReport = employee.TryValidateToInsert();
             if(validatingReport.Any())

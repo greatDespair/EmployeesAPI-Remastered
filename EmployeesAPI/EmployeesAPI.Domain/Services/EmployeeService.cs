@@ -25,7 +25,7 @@ namespace EmployeesAPI.Domain.Services
             _mapper = mapper;
         }
 
-        public async Task<int?> AddEmployeeAsync(EmployeeDto employeeDto)
+        public async Task<int?> AddEmployeeAsync(AddedEmployeeDto employeeDto)
         {
             var employee = _mapper.Map<Employee>(employeeDto);
             var passport = employee.Passport;

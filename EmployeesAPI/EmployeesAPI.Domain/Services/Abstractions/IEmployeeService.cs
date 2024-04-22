@@ -9,7 +9,7 @@ namespace EmployeesAPI.Domain.Abstractions
 
         public Task<List<EmployeeDto>> GetEmployeesByCompanyIdAsync(int id);
 
-        public Task<int?> AddEmployeeAsync(EmployeeDto employee);
+        public Task<int?> AddEmployeeAsync(AddedEmployeeDto employee);
 
         public Task UpdateEmployeeAsync(EmployeeDto employee);
 
