@@ -6,6 +6,7 @@ using EmployeesAPI.Models.Dto;
 using System.Net;
 using Swashbuckle.AspNetCore.Annotations;
 using EmployeesAPI.Domain.Abstractions;
+using EmployeesAPI.Validation;
 
 namespace EmployeesAPI.Controllers
 {
@@ -68,10 +69,17 @@ namespace EmployeesAPI.Controllers
         /// </summary>
         /// <param name="employee">Сотрудник</param>
         /// <response code="200">Сотрудник успешно добавлен</response>
+        /// <response code="400">Некорретные данные для добавления сотрудника</response>
         [SwaggerResponse((int)HttpStatusCode.OK, "Id", typeof(int))]
         [HttpPost("AddEmployee")]
         public async Task<IActionResult> AddEmployee(EmployeeDto employee)
         {
+            var validatingReport = employee.TryValidateToInsert();
+            if(validatingReport.Any())
+            {
+                return BadRequest(validatingReport);
+            }
+
             var result = await _employeeService.AddEmployee(employee);
             return Ok(result);
         }
@@ -94,6 +102,7 @@ namespace EmployeesAPI.Controllers
         /// </summary>
         /// <param name="employee">Обновляемый сотрудник</param>
         /// <response code="204">Сотрудник успешно обновлен</response>
+        /// <response code="400">Некорректные данные для обновления</response>
         /// <response code="404">Данные о сотруднике не найдены</response>
         [HttpPut("UpdateEmployee")]
         public async Task<IActionResult> UpdateEmployee(EmployeeDto employee)

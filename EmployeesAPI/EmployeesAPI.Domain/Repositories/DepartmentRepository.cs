@@ -35,8 +35,8 @@ namespace EmployeesAPI.Domain.Repositories
         public async Task Update(Department item)
         {
             var queryString = "UPDATE public.\"Departments\" SET " +
-                    "DepartmentName = CASE WHEN @DepartmentName IS NULL THEN DepartmentName ELSE @Name END, " +
-                    "DepartmentPhone = CASE WHEN @DepartmentPhone IS NULL THEN DepartmentPhone ELSE @Phone END" +
+                    "DepartmentName = CASE WHEN @DepartmentName IS NULL THEN DepartmentName ELSE @DepartmentName END, " +
+                    "DepartmentPhone = CASE WHEN @DepartmentPhone IS NULL THEN DepartmentPhone ELSE @DepartmentPhone END " +
                     "WHERE Id = @Id;";
             await _context.ExecuteAsync(queryString, new { Id = item.Id, DepartmentName = item.DepartmentName, DepartmentPhone = item.DepartmentPhone });
         }

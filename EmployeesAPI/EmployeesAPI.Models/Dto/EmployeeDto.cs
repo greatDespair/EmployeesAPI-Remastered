@@ -11,6 +11,7 @@ namespace EmployeesAPI.Models.Dto
         public string? Name { get; set; }
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
         public string? Surname { get; set; }
+        [Phone]
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
         public string? Phone { get; set; }
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
